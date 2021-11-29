@@ -214,12 +214,12 @@ type game struct {
 }
 
 type player struct {
-	pos       int
-	moves     int
-	stucks    int
-	jumps     int
-	jumpsBack int
-	roads     int
+	pos            int
+	moves          int
+	stucks         int
+	candyJumps     int
+	candyJumpsBack int
+	roads          int
 }
 
 func (p *player) move(c *card) (won bool) {
@@ -228,9 +228,9 @@ func (p *player) move(c *card) (won bool) {
 		if !ok {
 			panic("bad data")
 		}
-		p.jumps++
-		if pos > p.pos {
-			p.jumpsBack++
+		p.candyJumps++
+		if pos < p.pos {
+			p.candyJumpsBack++
 		}
 		p.pos = pos
 		return false
