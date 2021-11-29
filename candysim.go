@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// The candysim command simulates games of Candylane to give me an
+// The candysim command simulates games of Candyland to give me an
 // idea of how long this will go on.
 package main
 
