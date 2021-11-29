@@ -14,9 +14,12 @@ import (
 	"time"
 )
 
-var verbose = flag.Bool("verbose", false, "verbose/debug")
-var players = flag.Int("players", 1, "number of players")
-var N = flag.Int("n", 10000, "number of games to simulate")
+var (
+	verbose  = flag.Bool("verbose", false, "verbose/debug")
+	players  = flag.Int("players", 1, "number of players")
+	N        = flag.Int("n", 10000, "number of games to simulate")
+	backJump = flag.Bool("allow-back", true, "allow backwards candy jumps")
+)
 
 type color uint8
 
@@ -229,10 +232,13 @@ func (p *player) move(c *card) (won bool) {
 		if !ok {
 			panic("bad data")
 		}
-		p.candyJumps++
 		if pos < p.pos {
+			if !*backJump {
+				return
+			}
 			p.candyJumpsBack++
 		}
+		p.candyJumps++
 		p.pos = pos
 		return false
 	}
