@@ -112,7 +112,8 @@ var board = []square{
 var candyPos = map[string]int{}
 
 func init() {
-	for i, s := range board {
+	for i := range board {
+		s := &board[i]
 		if s.candy != "" {
 			if _, ok := candyPos[s.candy]; ok {
 				panic("dup " + s.candy)
