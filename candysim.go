@@ -15,6 +15,8 @@ import (
 )
 
 var verbose = flag.Bool("verbose", false, "verbose/debug")
+var players = flag.Int("players", 1, "number of players")
+var N = flag.Int("n", 10000, "number of games to simulate")
 
 type color uint8
 
@@ -274,11 +276,10 @@ func newGame(players int) *game {
 
 func main() {
 	flag.Parse()
-	g := newGame(1)
+	g := newGame(*players)
 
 	var moves []int
-	const N = 100000
-	for i := 0; i < N; i++ {
+	for i := 0; i < *N; i++ {
 		g.reset()
 		g.run()
 		moves = append(moves, g.moves)
@@ -292,8 +293,8 @@ func main() {
 	}
 	sort.Ints(moves)
 	fmt.Println("min", moves[0])
-	fmt.Println("med", moves[N/2])
-	fmt.Println("90p", moves[N*9/10])
+	fmt.Println("med", moves[*N/2])
+	fmt.Println("90p", moves[*N*9/10])
 	fmt.Println("max", moves[len(moves)-1])
 
 }
