@@ -15,10 +15,11 @@ import (
 )
 
 var (
-	verbose  = flag.Bool("verbose", false, "verbose/debug")
-	players  = flag.Int("players", 1, "number of players")
-	N        = flag.Int("n", 10000, "number of games to simulate")
-	backJump = flag.Bool("allow-back", true, "allow backwards candy jumps")
+	verbose    = flag.Bool("verbose", false, "verbose/debug")
+	players    = flag.Int("players", 1, "number of players")
+	N          = flag.Int("n", 10000, "number of games to simulate")
+	allowBack  = flag.Bool("allow-back", true, "allow backwards candy jumps")
+	allowStuck = flag.Bool("allow-stuck", true, "allow getting stuck")
 )
 
 type color uint8
@@ -233,7 +234,7 @@ func (p *player) move(c *card) (won bool) {
 			panic("bad data")
 		}
 		if pos < p.pos {
-			if !*backJump {
+			if !*allowBack {
 				return
 			}
 			p.candyJumpsBack++
@@ -242,7 +243,7 @@ func (p *player) move(c *card) (won bool) {
 		p.pos = pos
 		return false
 	}
-	if p.pos >= 0 {
+	if p.pos >= 0 && *allowStuck {
 		curs := &board[p.pos]
 		if curs.pit && c.color != curs.color {
 			p.stucks++
